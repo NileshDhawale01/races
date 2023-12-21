@@ -1,12 +1,9 @@
 package com.nsd.race.mapper;
 
-import static com.nsd.race.mapper.CompanyMapper.toCompany;
-import static com.nsd.race.mapper.CompanyMapper.toCompanyDto;
 import static com.nsd.race.util.FunctionUtil.evalMapper;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;

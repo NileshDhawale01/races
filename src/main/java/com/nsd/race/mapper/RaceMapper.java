@@ -4,8 +4,8 @@ import static com.nsd.race.mapper.CarMapper.toCar;
 import static com.nsd.race.mapper.CarMapper.toCarDto;
 import static com.nsd.race.mapper.CatagoryMapper.toCatagory;
 import static com.nsd.race.mapper.CatagoryMapper.toCatagoryDto;
-import static com.nsd.race.mapper.CompanyMapper.toCompany;
-import static com.nsd.race.mapper.CompanyMapper.toCompanyDto;
+//import static com.nsd.race.mapper.CompanyMapper.toCompany;
+//import static com.nsd.race.mapper.CompanyMapper.toCompanyDto;
 import static com.nsd.race.util.FunctionUtil.evalMapper;
 
 import java.util.Collection;

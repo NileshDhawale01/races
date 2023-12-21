@@ -6,6 +6,7 @@ import static com.nsd.race.util.FunctionUtil.evalMapper;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -19,19 +20,14 @@ public class CarMapper {
 	
 	public static final Function<Cars, Optional<CarDto>> toCarDto = e->{
 		Optional<CarDto> carDto = evalMapper(e, CarDto.class);
-		
-		carDto.ifPresent(c->{
-			c.setCompanyDto(toCompanyDto.apply(e.getCompany()).get());
-		});
 		return carDto;
 	};
 	
 	public static final Function<CarDto, Optional<Cars>> toCar = e->{
 		Optional<Cars> cars = evalMapper(e, Cars.class);
-		
-		cars.ifPresent(c->{
-			c.setCompany(toCompany.apply(e.getCompanyDto()).get());
-		});
+//		cars.ifPresent(c->{
+//			c.setCompany(toCompany.apply(e.getCompanyDto()).get());
+//		});
 		return cars;
 	};
 	

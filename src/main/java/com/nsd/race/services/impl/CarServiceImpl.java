@@ -13,14 +13,16 @@ import com.nsd.race.repositories.CarRepository;
 import com.nsd.race.services.CarService;
 
 @Service
-public class CarServiceImpl implements CarService{
+public class CarServiceImpl implements CarService {
 
 	@Autowired
 	private CarRepository carRepository;
-	
+
 	@Override
 	public CarDto addCar(CarDto carDto) {
-		return toCarDto.apply(carRepository.save(toCar.apply(carDto).get())).get();
+		Cars cars = toCar.apply(carDto).get();
+		cars.setCompany(toCompany.apply(carDto.getCompanyDto()).get());
+		return toCarDto.apply(carRepository.save(cars)).get();
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class CarServiceImpl implements CarService{
 	public void deleteCarById(Integer carId) {
 //		Cars cars = carRepository.findById(carId).get();
 //		carRepository.delete(cars);
-		
+
 		carRepository.deleteById(carId);
 	}
 

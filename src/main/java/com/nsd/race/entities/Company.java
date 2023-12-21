@@ -36,4 +36,7 @@ public class Company {
 	
 	@OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
 	private List<Cars> cars;
+	
+//	@OneToMany(mappedBy = "company" , fetch = FetchType.LAZY)
+//	private List<Race> races;
 }

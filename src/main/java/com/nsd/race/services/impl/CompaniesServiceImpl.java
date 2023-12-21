@@ -15,7 +15,10 @@ import com.nsd.race.exceptions.ResorcesNotFoundException;
 import com.nsd.race.repositories.CompanyRepo;
 import com.nsd.race.services.CompaniesService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class CompaniesServiceImpl implements CompaniesService{
 
 	@Autowired
@@ -31,6 +34,7 @@ public class CompaniesServiceImpl implements CompaniesService{
 		Company company = companyRepo.findById(companyId).orElseThrow(()->new ResorcesNotFoundException("compony", "companyId",companyId));
 		company.setName(companyDto.getName());
 		company.setDescription(companyDto.getDescription());
+		log.info("returning from company sevice method updateCompany()");
 		return toCompanyDto.apply(companyRepo.save(company)).orElseThrow(()->new ResorcesNotFoundException("compony", "company conversion error"));
 	}
 

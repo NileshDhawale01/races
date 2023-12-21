@@ -16,7 +16,10 @@ import com.nsd.race.exceptions.ResorcesNotFoundException;
 import com.nsd.race.repositories.CarRepository;
 import com.nsd.race.services.CarService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class CarServiceImpl implements CarService {
 
 	@Autowired
@@ -28,6 +31,7 @@ public class CarServiceImpl implements CarService {
 				.orElseThrow(() -> new ResorcesNotFoundException("Car", "Converson Car to carDto"));
 		cars.setCompany(toCompany.apply(carDto.getCompanyDto())
 				.orElseThrow(() -> new ResorcesNotFoundException("compony", "Converson compony to componyDto")));
+		log.info("returning from car sevice method addCar()");
 		return toCarDto.apply(carRepository.save(cars))
 				.orElseThrow(() -> new ResorcesNotFoundException("Car", "Converson car to carDto"));
 	}
@@ -42,6 +46,7 @@ public class CarServiceImpl implements CarService {
 		cars.setName(carDto.getName());
 		cars.setPrice(carDto.getPrice());
 		cars.setTopSpeed(carDto.getTopSpeed());
+		log.info("returning from car sevice method modifieCar()");
 		return toCarDto.apply(carRepository.save(cars))
 				.orElseThrow(() -> new ResorcesNotFoundException("Car", "Converson CarDto"));
 	}
@@ -53,6 +58,7 @@ public class CarServiceImpl implements CarService {
 
 	@Override
 	public CarDto getCarById(Integer carId) {
+		log.info("returning from car sevice method getCarById()");
 		return toCarDto.apply(carRepository.findById(carId).get())
 				.orElseThrow(() -> new ResorcesNotFoundException("Car", "Converson to car CarDto"));
 	}
@@ -62,6 +68,7 @@ public class CarServiceImpl implements CarService {
 		try {
 			carRepository.deleteById(carId);
 		} catch (Exception e) {
+			log.error("error in deleteCarById()");
 			throw new ResorcesNotFoundException("Car", "Car not found to remove.");
 		}
 	}

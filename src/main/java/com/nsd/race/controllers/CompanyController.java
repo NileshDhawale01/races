@@ -1,5 +1,11 @@
 package com.nsd.race.controllers;
 
+import static com.nsd.race.contants.ApiContants.COMPANY_ID;
+import static com.nsd.race.contants.ApiContants.COMPANY;
+import static com.nsd.race.contants.NameContants.ADMIN_ATHORITY;
+import static com.nsd.race.contants.NameContants.DATA;
+import static com.nsd.race.contants.NameContants.SUCCESS;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,61 +25,69 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nsd.race.dto.CompanyDto;
 import com.nsd.race.services.CompaniesService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
-@RequestMapping("/company")
+@RequestMapping(COMPANY)
+@Slf4j
 public class CompanyController {
 
 	@Autowired
 	private CompaniesService companiesService;
 	
 	@GetMapping
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> getAllCompanies(){
 		
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", companiesService.getAllCompanies());
-		map.put("success", true);
+		map.put(DATA, companiesService.getAllCompanies());
+		map.put(SUCCESS, true);
+		log.info("returning from getAllCompanies()");
 		return new ResponseEntity<>(map , HttpStatus.OK);
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> createCompany(@RequestBody CompanyDto companyDto){
 		
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", companiesService.createCompany(companyDto));
-		map.put("success", true);
+		map.put(DATA, companiesService.createCompany(companyDto));
+		map.put(SUCCESS, true);
+		log.info("returning from createCompany()");
 		return new ResponseEntity<>(map , HttpStatus.CREATED);
 	}
 	
-	@PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PutMapping(COMPANY_ID)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> updateCompany(@RequestBody CompanyDto companyDto ,@PathVariable Integer id ){
 		
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", companiesService.updateCompany(companyDto, id));
-		map.put("success", true);
+		map.put(DATA, companiesService.updateCompany(companyDto, id));
+		map.put(SUCCESS, true);
+		log.info("returning from updateCompany()");
 		return new ResponseEntity<>(map , HttpStatus.OK);
 	}
 	
-	@GetMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping(COMPANY_ID)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> getCompanyById(@PathVariable Integer id){
 		
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", companiesService.getCompanyById(id));
-		map.put("success", true);
+		map.put(DATA, companiesService.getCompanyById(id));
+		map.put(SUCCESS, true);
+		log.info("returning from getCompanyById()");
 		return new ResponseEntity<>(map , HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@DeleteMapping(COMPANY_ID)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> deleteCompany(@PathVariable Integer id){
 		
 		companiesService.deleteComapanyById(id);
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", "company deleted.");
-		map.put("success", true);
+		map.put(DATA, "company deleted.");
+		map.put(SUCCESS, true);
+		log.info("returning from deleteCompany()");
 		return new ResponseEntity<>(map , HttpStatus.OK);
 		
 	}

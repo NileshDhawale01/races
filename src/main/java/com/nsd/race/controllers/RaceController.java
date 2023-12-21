@@ -1,5 +1,12 @@
 package com.nsd.race.controllers;
 
+import static com.nsd.race.contants.ApiContants.ADD_RACE;
+import static com.nsd.race.contants.ApiContants.RACE;
+import static com.nsd.race.contants.ApiContants.RACE_ID;
+import static com.nsd.race.contants.NameContants.ADMIN_ATHORITY;
+import static com.nsd.race.contants.NameContants.DATA;
+import static com.nsd.race.contants.NameContants.SUCCESS;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,60 +27,60 @@ import com.nsd.race.dto.RaceDto;
 import com.nsd.race.services.RaceService;
 
 @RestController
-@RequestMapping("/race")
+@RequestMapping(RACE)
 public class RaceController {
 
 	@Autowired
 	private RaceService raceService;
 
-	@PostMapping("/add")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PostMapping(ADD_RACE)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> addRace(@RequestBody RaceDto raceDto) {
 
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", raceService.addRace(raceDto));
-		map.put("success", true);
+		map.put(DATA, raceService.addRace(raceDto));
+		map.put(SUCCESS, true);
 		return new ResponseEntity<>(map, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PutMapping(RACE_ID)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> updateRace(@RequestBody RaceDto raceDto, @PathVariable Integer id) {
 
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", raceService.updateRace(id, raceDto));
-		map.put("success", true);
+		map.put(DATA, raceService.updateRace(id, raceDto));
+		map.put(SUCCESS, true);
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 
 	@GetMapping
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> getAllReaces() {
 
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", raceService.getAllRaces());
-		map.put("success", true);
+		map.put(DATA, raceService.getAllRaces());
+		map.put(SUCCESS, true);
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping(RACE_ID)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> getRaceById(@PathVariable Integer id) {
 
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", raceService.getRaceById(id));
-		map.put("success", true);
+		map.put(DATA, raceService.getRaceById(id));
+		map.put(SUCCESS, true);
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@DeleteMapping(RACE_ID)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> cancelRace(@PathVariable Integer id) {
 
 		raceService.cancelRace(id);
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", "race canceled.");
-		map.put("success", true);
+		map.put(DATA, "race canceled.");
+		map.put(SUCCESS, true);
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 }

@@ -8,7 +8,10 @@ import com.nsd.race.entities.UserInfo;
 import com.nsd.race.repositories.UserInfoRepo;
 import com.nsd.race.services.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService{
 
 	@Autowired
@@ -20,6 +23,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserInfo saveUser(UserInfo userInfo) {
 		userInfo.setPassword(encoder.encode(userInfo.getPassword()));
+		log.info("save user...");
 		return infoRepo.save(userInfo);
 	}
 

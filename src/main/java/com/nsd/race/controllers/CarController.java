@@ -1,5 +1,11 @@
 package com.nsd.race.controllers;
 
+import static com.nsd.race.contants.ApiContants.CAR;
+import static com.nsd.race.contants.ApiContants.CAR_ID;
+import static com.nsd.race.contants.NameContants.ADMIN_ATHORITY;
+import static com.nsd.race.contants.NameContants.DATA;
+import static com.nsd.race.contants.NameContants.SUCCESS;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,60 +25,68 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nsd.race.dto.CarDto;
 import com.nsd.race.services.CarService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
-@RequestMapping("/car")
+@RequestMapping(CAR)
+@Slf4j
 public class CarController {
 
 	@Autowired
 	private CarService carService;
 
 	@GetMapping
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> getAllCars() {
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", carService.getAllCars());
-		map.put("success", true);
+		map.put(DATA, carService.getAllCars());
+		map.put(SUCCESS, true);
+		log.info("returning from getAllCars()");
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 
 	@PostMapping
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> addCar(@RequestBody CarDto carDto) {
 
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", carService.addCar(carDto));
-		map.put("success", true);
+		map.put(DATA, carService.addCar(carDto));
+		map.put(SUCCESS, true);
+		log.info("returning from addCar()");
 		return new ResponseEntity<>(map, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PutMapping(CAR_ID)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> updateCar(@RequestBody CarDto carDto, @PathVariable Integer id) {
 
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", carService.modifieCar(carDto, id));
-		map.put("success", true);
+		map.put(DATA, carService.modifieCar(carDto, id));
+		map.put(SUCCESS, true);
+		log.info("returning from updateCar()");
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping(CAR_ID)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> getCarById(@PathVariable Integer id) {
 
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", carService.getCarById(id));
-		map.put("success", true);
+		map.put(DATA, carService.getCarById(id));
+		map.put(SUCCESS, true);
+		log.info("returning from getCarById()");
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@DeleteMapping(CAR_ID)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> removeCarById(@PathVariable Integer id) {
 
 		carService.deleteCarById(id);
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", "car removed.");
-		map.put("success", true);
+		map.put(DATA, "car removed.");
+		map.put(SUCCESS, true);
+		log.info("returning from removeCarById()");
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 }

@@ -1,5 +1,14 @@
 package com.nsd.race.controllers;
 
+import static com.nsd.race.contants.ApiContants.ADD_CATAGORY;
+import static com.nsd.race.contants.ApiContants.ALL_CATAGORY;
+import static com.nsd.race.contants.ApiContants.CATAGORY;
+import static com.nsd.race.contants.ApiContants.CATAGORY_ID;
+import static com.nsd.race.contants.ApiContants.UPDATE_CATAGORY;
+import static com.nsd.race.contants.NameContants.ADMIN_ATHORITY;
+import static com.nsd.race.contants.NameContants.DATA;
+import static com.nsd.race.contants.NameContants.SUCCESS;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,51 +28,58 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nsd.race.dto.CatagoryDto;
 import com.nsd.race.services.CatagoryService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
-@RequestMapping("/catagory")
+@RequestMapping(CATAGORY)
+@Slf4j
 public class CatagoryController {
 
 	@Autowired
 	private CatagoryService catagoryService;
 
-	@GetMapping("/all")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping(ALL_CATAGORY)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> getAllCatagories() {
 		
 		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", catagoryService.getAllCatagories());
-		map.put("success", true);
+		map.put(DATA, catagoryService.getAllCatagories());
+		map.put(SUCCESS, true);
+		log.info("returning from getAllCatagories()");
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 	
-	@PostMapping("/add")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PostMapping(ADD_CATAGORY)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> addCatagory(@RequestBody CatagoryDto catagoryDto){
 		
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", catagoryService.addCatagory(catagoryDto));
-		map.put("success", true);
+		map.put(DATA, catagoryService.addCatagory(catagoryDto));
+		map.put(SUCCESS, true);
+		log.info("returning from addCatagory()");
 		return new ResponseEntity<>(map , HttpStatus.CREATED);
 	}
 	
-	@PutMapping("/update/{catId}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PutMapping(UPDATE_CATAGORY)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object , Object>> updateCatagory(@RequestBody CatagoryDto catagoryDto , @PathVariable Integer catId){
 		
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", catagoryService.updateCatagory(catagoryDto, catId));
-		map.put("success", true);
+		map.put(DATA, catagoryService.updateCatagory(catagoryDto, catId));
+		map.put(SUCCESS, true);
+		log.info("returning from updateCatagory()");
 		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@DeleteMapping(CATAGORY_ID)
+	@PreAuthorize(ADMIN_ATHORITY)
 	public ResponseEntity<Map<Object, Object>> deleteCatagory(@PathVariable Integer id){
 		
 		catagoryService.deleteCatagory(id);
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", "record deleted successfully!");
-		map.put("success", true);
+		map.put(DATA, "record deleted successfully!");
+		map.put(SUCCESS, true);
+		log.info("returning from deleteCatagory()");
 		return new ResponseEntity<>(map , HttpStatus.OK);
 	}
 }

@@ -17,7 +17,10 @@ import com.nsd.race.exceptions.ResorcesNotFoundException;
 import com.nsd.race.repositories.RaceRepo;
 import com.nsd.race.services.RaceService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class RaceServiceImpl implements RaceService {
 
 	@Autowired
@@ -39,6 +42,7 @@ public class RaceServiceImpl implements RaceService {
 		race.setDate(raceDto.getDate());
 		race.setTrack(raceDto.getTrack());
 		race.setDescription(raceDto.getDescription());
+		log.info("returning from race sevice method updateRace()");
 		return toRaceDto.apply(raceRepo.save(race)).orElseThrow(()-> new ResorcesNotFoundException("Race", "race converson error"));
 	}
 

@@ -15,7 +15,10 @@ import com.nsd.race.exceptions.ResorcesNotFoundException;
 import com.nsd.race.repositories.CatagoryRepo;
 import com.nsd.race.services.CatagoryService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class CatagoryServiceImpl implements CatagoryService{
 
 	@Autowired
@@ -23,16 +26,19 @@ public class CatagoryServiceImpl implements CatagoryService{
 	
 	@Override
 	public List<CatagoryDto> getAllCatagories() {
+		log.info("returning from catagory sevice method getAllCatagories()");
 		return toCatagoryDtos.apply(catagoryRepo.findAll());
 	}
 
 	@Override
 	public CatagoryDto getCatagoryById(Integer catId) {
+		log.info("returning from catagory sevice method getCatagoryById()");
 		return toCatagoryDto.apply(catagoryRepo.findById(catId).get()).orElseThrow(()->new ResorcesNotFoundException("Catagory","CatagoryId",catId));
 	}
 
 	@Override
 	public CatagoryDto addCatagory(CatagoryDto catagoryDto) {
+		log.info("returning from catagory sevice method addCatagory()");
 		return toCatagoryDto.apply(catagoryRepo.save(toCatagory.apply(catagoryDto).get())).orElseThrow(()->new ResorcesNotFoundException("Catagory","catagory converson error"));
 	}
 
@@ -41,6 +47,7 @@ public class CatagoryServiceImpl implements CatagoryService{
 		CatagoryDto catagoryDto2 = toCatagoryDto.apply(catagoryRepo.findById(catId).get()).orElseThrow(()->new ResorcesNotFoundException("Catagory","catagory converson error"));
 		catagoryDto2.setName(catagoryDto.getName());
 		catagoryDto2.setDescription(catagoryDto.getDescription());
+		log.info("returning from catagory sevice method updateCatagory()");
 		return toCatagoryDto.apply(catagoryRepo.save(toCatagory.apply(catagoryDto2).get())).orElseThrow(()->new ResorcesNotFoundException("Catagory","catagory converson error"));
 	}
 

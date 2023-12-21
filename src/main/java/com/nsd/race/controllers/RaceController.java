@@ -38,10 +38,10 @@ public class RaceController {
 
 	@PutMapping("/{id}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<Map<Object, Object>> updateRace(@RequestBody RaceDto raceDto, @PathVariable Integer Id) {
+	public ResponseEntity<Map<Object, Object>> updateRace(@RequestBody RaceDto raceDto, @PathVariable Integer id) {
 
 		Map<Object, Object> map = new HashMap<>();
-		map.put("data", raceService.updateRace(Id, raceDto));
+		map.put("data", raceService.updateRace(id, raceDto));
 		map.put("success", true);
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}

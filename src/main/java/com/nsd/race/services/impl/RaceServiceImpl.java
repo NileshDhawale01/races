@@ -2,7 +2,6 @@ package com.nsd.race.services.impl;
 
 import static com.nsd.race.mapper.CarMapper.toCar;
 import static com.nsd.race.mapper.CatagoryMapper.toCatagory;
-import static com.nsd.race.mapper.CompanyMapper.toCompany;
 import static com.nsd.race.mapper.RaceMapper.toRace;
 import static com.nsd.race.mapper.RaceMapper.toRaceDto;
 import static com.nsd.race.mapper.RaceMapper.toRaceDtos;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.nsd.race.dto.RaceDto;
 import com.nsd.race.entities.Race;
+import com.nsd.race.exceptions.ResorcesNotFoundException;
 import com.nsd.race.repositories.RaceRepo;
 import com.nsd.race.services.RaceService;
 
@@ -25,21 +25,21 @@ public class RaceServiceImpl implements RaceService {
 
 	@Override
 	public RaceDto addRace(RaceDto raceDto) {
-		return toRaceDto.apply(raceRepo.save(toRace.apply(raceDto).get())).get();
+		return toRaceDto.apply(raceRepo.save(toRace.apply(raceDto).get())).orElseThrow(()-> new ResorcesNotFoundException("Race", "race converson error"));
 	}
 
 	@Override
 	public RaceDto updateRace(Integer raceId, RaceDto raceDto) {
 		
-		Race race = raceRepo.findById(raceId).get();
-		race.setCars(toCar.apply(raceDto.getCarsDto()).get());
-		race.setCatagory(toCatagory.apply(raceDto.getCatagoryDto()).get());
+		Race race = raceRepo.findById(raceId).orElseThrow(()-> new ResorcesNotFoundException("Race", "raceID",raceId));
+		race.setCars(toCar.apply(raceDto.getCarsDto()).orElseThrow(()-> new ResorcesNotFoundException("Car", "car converson error")));
+		race.setCatagory(toCatagory.apply(raceDto.getCatagoryDto()).orElseThrow(()-> new ResorcesNotFoundException("catagory", "catagory converson error")));
 
 		race.setCountry(raceDto.getCountry());
 		race.setDate(raceDto.getDate());
 		race.setTrack(raceDto.getTrack());
 		race.setDescription(raceDto.getDescription());
-		return toRaceDto.apply(raceRepo.save(race)).get();
+		return toRaceDto.apply(raceRepo.save(race)).orElseThrow(()-> new ResorcesNotFoundException("Race", "race converson error"));
 	}
 
 	@Override
@@ -49,13 +49,13 @@ public class RaceServiceImpl implements RaceService {
 
 	@Override
 	public RaceDto getRaceById(Integer raceId) {
-		return toRaceDto.apply(raceRepo.findById(raceId).get()).get();
+		return toRaceDto.apply(raceRepo.findById(raceId).get()).orElseThrow(()-> new ResorcesNotFoundException("Race", "raceId",raceId));
 	}
 
 	@Override
 	public void cancelRace(Integer raceId) {
 		
-		Race race = raceRepo.findById(raceId).get();
+		Race race = raceRepo.findById(raceId).orElseThrow(()-> new ResorcesNotFoundException("Race", "raceId",raceId));
 		raceRepo.delete(race);
 	}
 

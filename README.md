@@ -18,4 +18,4 @@ Follow these steps to get started with the Race Project:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/race-project.git
+   https://github.com/NileshDhawale01/races.git
